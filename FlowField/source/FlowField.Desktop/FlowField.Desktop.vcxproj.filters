@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Precompiled Header">
+      <UniqueIdentifier>{9d101901-2861-46cc-a4a7-c168855f3ddf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main">
+      <UniqueIdentifier>{70dac0ff-8973-4756-9066-a59faec23875}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Simulation">
+      <UniqueIdentifier>{4a0354a3-cc0b-465b-84d5-c0cf3a4ce851}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FlowField">
+      <UniqueIdentifier>{76e49a6d-3582-4b31-b7be-f2a51e96ce2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SimComponent">
+      <UniqueIdentifier>{b134aa96-933a-44f2-8b5a-cfeada78e657}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NoiseCube">
+      <UniqueIdentifier>{0c4c9b3e-46d4-476e-b2ee-7d4954df6c8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SimplexNoise">
+      <UniqueIdentifier>{f25696fe-f51a-4b0f-bb7a-bf536008287a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SimplexNoise\SimplexNoiseOctave">
+      <UniqueIdentifier>{f767561b-9291-43eb-8541-b31f443204f5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Precompiled Header</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation.cpp">
+      <Filter>Simulation</Filter>
+    </ClCompile>
+    <ClCompile Include="NoiseCube.cpp">
+      <Filter>NoiseCube</Filter>
+    </ClCompile>
+    <ClCompile Include="SimplexNoise.cpp">
+      <Filter>SimplexNoise</Filter>
+    </ClCompile>
+    <ClCompile Include="SimplexNoiseOctave.cpp">
+      <Filter>SimplexNoise\SimplexNoiseOctave</Filter>
+    </ClCompile>
+    <ClCompile Include="FlowField.cpp">
+      <Filter>FlowField</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Precompiled Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation.h">
+      <Filter>Simulation</Filter>
+    </ClInclude>
+    <ClInclude Include="SimComponent.h">
+      <Filter>SimComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="NoiseCube.h">
+      <Filter>NoiseCube</Filter>
+    </ClInclude>
+    <ClInclude Include="SimplexNoise.h">
+      <Filter>SimplexNoise</Filter>
+    </ClInclude>
+    <ClInclude Include="SimplexNoiseOctave.h">
+      <Filter>SimplexNoise\SimplexNoiseOctave</Filter>
+    </ClInclude>
+    <ClInclude Include="FlowField.h">
+      <Filter>FlowField</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>
