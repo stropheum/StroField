@@ -1,0 +1,33 @@
+﻿  stdafx.cpp
+  Main.cpp
+  Simulation.cpp
+  SimplexNoiseOctave.cpp
+  SimplexNoise.cpp
+c:\users\strop\documents\github\strofield\flowfield\source\flowfield.desktop\simplexnoise.cpp(5): warning C4305: 'initializing': truncation from '__int64' to 'int'
+c:\users\strop\documents\github\strofield\flowfield\source\flowfield.desktop\simplexnoise.cpp(5): warning C4309: 'initializing': truncation of constant value
+  NoiseCube.cpp
+c:\users\strop\documents\github\strofield\flowfield\source\flowfield.desktop\noisecube.cpp(112): warning C4244: '=': conversion from 'double' to 'sf::Uint8', possible loss of data
+c:\users\strop\documents\github\strofield\flowfield\source\flowfield.desktop\noisecube.cpp(113): warning C4244: '=': conversion from 'double' to 'sf::Uint8', possible loss of data
+c:\users\strop\documents\github\strofield\flowfield\source\flowfield.desktop\noisecube.cpp(114): warning C4244: '=': conversion from 'double' to 'sf::Uint8', possible loss of data
+c:\users\strop\documents\github\strofield\flowfield\source\flowfield.desktop\noisecube.cpp(175): warning C4244: '=': conversion from 'float' to 'sf::Uint8', possible loss of data
+c:\users\strop\documents\github\strofield\flowfield\source\flowfield.desktop\noisecube.cpp(177): warning C4244: '=': conversion from 'float' to 'sf::Uint8', possible loss of data
+c:\users\strop\documents\github\strofield\flowfield\source\flowfield.desktop\noisecube.cpp(182): warning C4244: '=': conversion from 'float' to 'sf::Uint8', possible loss of data
+c:\users\strop\documents\github\strofield\flowfield\source\flowfield.desktop\noisecube.cpp(184): warning C4244: '=': conversion from 'float' to 'sf::Uint8', possible loss of data
+c:\users\strop\documents\github\strofield\flowfield\source\flowfield.desktop\noisecube.cpp(189): warning C4244: '=': conversion from 'float' to 'sf::Uint8', possible loss of data
+c:\users\strop\documents\github\strofield\flowfield\source\flowfield.desktop\noisecube.cpp(191): warning C4244: '=': conversion from 'float' to 'sf::Uint8', possible loss of data
+c:\users\strop\documents\github\strofield\flowfield\source\flowfield.desktop\noisecube.cpp(196): warning C4244: '=': conversion from 'float' to 'sf::Uint8', possible loss of data
+c:\users\strop\documents\github\strofield\flowfield\source\flowfield.desktop\noisecube.cpp(198): warning C4244: '=': conversion from 'float' to 'sf::Uint8', possible loss of data
+c:\users\strop\documents\github\strofield\flowfield\source\flowfield.desktop\noisecube.cpp(203): warning C4244: '=': conversion from 'float' to 'sf::Uint8', possible loss of data
+c:\users\strop\documents\github\strofield\flowfield\source\flowfield.desktop\noisecube.cpp(205): warning C4244: '=': conversion from 'float' to 'sf::Uint8', possible loss of data
+c:\users\strop\documents\github\strofield\flowfield\source\flowfield.desktop\noisecube.cpp(210): warning C4244: '=': conversion from 'float' to 'sf::Uint8', possible loss of data
+c:\users\strop\documents\github\strofield\flowfield\source\flowfield.desktop\noisecube.cpp(212): warning C4244: '=': conversion from 'float' to 'sf::Uint8', possible loss of data
+  FlowField.cpp
+c:\users\strop\documents\github\strofield\flowfield\source\flowfield.desktop\flowfield.cpp(17): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\strop\documents\github\strofield\flowfield\source\flowfield.desktop\flowfield.cpp(36): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\strop\documents\github\strofield\flowfield\source\flowfield.desktop\flowfield.cpp(38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\strop\documents\github\strofield\flowfield\source\flowfield.desktop\flowfield.cpp(68): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\strop\documents\github\strofield\flowfield\source\flowfield.desktop\flowfield.cpp(69): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\strop\documents\github\strofield\flowfield\source\flowfield.desktop\flowfield.cpp(76): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Generating Code...
+  FlowField.Desktop.vcxproj -> C:\Users\strop\Documents\GitHub\StroField\FlowField\build\bin\FlowField.Desktop\Debug\x86\FlowField.Desktop.exe
+  FlowField.Desktop.vcxproj -> C:\Users\strop\Documents\GitHub\StroField\FlowField\build\bin\FlowField.Desktop\Debug\x86\FlowField.Desktop.pdb (Full PDB)

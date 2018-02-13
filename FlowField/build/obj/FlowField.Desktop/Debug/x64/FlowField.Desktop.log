@@ -1,0 +1,5 @@
+﻿  SimplexNoise.cpp
+c:\users\strop\documents\github\strofield\flowfield\source\flowfield.desktop\simplexnoise.cpp(5): warning C4305: 'initializing': truncation from '__int64' to 'int'
+c:\users\strop\documents\github\strofield\flowfield\source\flowfield.desktop\simplexnoise.cpp(5): warning C4309: 'initializing': truncation of constant value
+  FlowField.Desktop.vcxproj -> C:\Users\strop\Documents\GitHub\StroField\FlowField\build\bin\FlowField.Desktop\Debug\x64\FlowField.Desktop.exe
+  FlowField.Desktop.vcxproj -> C:\Users\strop\Documents\GitHub\StroField\FlowField\build\bin\FlowField.Desktop\Debug\x64\FlowField.Desktop.pdb (Full PDB)

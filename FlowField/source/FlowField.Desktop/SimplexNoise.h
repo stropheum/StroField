@@ -7,8 +7,8 @@ public:
     SimplexNoise(int numberOfOctaves, double persistence);
     ~SimplexNoise();
 
-    double GetNoise(int x, int y);
-    double GetNoise(int x, int y, int z);
+    double GetNoise(double x, double y);
+    double GetNoise(double x, double y, double z);
 
     static int SEED;
 

@@ -18,7 +18,7 @@ FlowField::FlowField(const int& width, const int& height, const int& gridResolut
     mSpriteImage.create(mGridOffset, 1, sf::Color::White);
     mSpriteTexture.loadFromImage(mSpriteImage);
 
-    mSimplexNoise = new SimplexNoise(6, 0.1f);
+    mSimplexNoise = new SimplexNoise(7, 1.0f);
 
     mVectorField = new sf::Vector2f*[mGridWidth];
     mRenderedVectors = new sf::Vertex[mGridWidth * mGridHeight * 2];
@@ -28,10 +28,6 @@ FlowField::FlowField(const int& width, const int& height, const int& gridResolut
         //mRenderedVectors[i] = new sf::Sprite[mGridHeight];
         for (int j = 0; j < mGridHeight; j++)
         {
-            //mRenderedVectors[i][j] = sf::Sprite();
-            //mRenderedVectors[i][j].setTexture(mSpriteTexture);
-            //mRenderedVectors[i][j].setFillColor(sf::Color::White);
-            //mRenderedVectors[i][j].setOutlineColor(sf::Color::White);
             mRenderedVectors[(i + (j * mGridWidth)) * 2].position = 
                 sf::Vector2f(i * mGridResolution + mGridOffset, j * mGridResolution + mGridOffset);
             mRenderedVectors[(i + (j * mGridWidth)) * 2 + 1].position = 
@@ -57,26 +53,25 @@ FlowField::~FlowField()
 
 void FlowField::Update(sf::RenderWindow& window, const double& deltaTime)
 {
-    //double elapsedTime = mNoiseClock.getElapsedTime().asSeconds();
+    double elapsedTime = mNoiseClock.getElapsedTime().asSeconds() / 100.0f;
     if (mDeltaClock.getElapsedTime().asSeconds() >= (1.0f / 60.0f))
     {
         for (int y = 0; y < mGridHeight; y++)
         {
             for (int x = 0; x < mGridWidth; x++)
             {
-                mVectorField[x][y].x = ((1 + mSimplexNoise->GetNoise(
-                    x / 50, y / 50, static_cast<int>(mNoiseClock.getElapsedTime().asMilliseconds()))) / 2.0f) * 360.0f;
-                mVectorField[x][y].y = (1 + mSimplexNoise->GetNoise(x, y, static_cast<int>(mNoiseClock.getElapsedTime().asSeconds()))) / 2.0f;
-
-                //double rotatedX = ()
+                mVectorField[x][y].x = abs(mSimplexNoise->GetNoise(x / 500.0f, y / 500.0f, elapsedTime)) * 360.0f;
+                mVectorField[x][y].y = abs(mSimplexNoise->GetNoise(x / 10.0f + 40000.0f, y / 10.0f + 40000.0f, elapsedTime));
 
                 // Only need to update the odd vertices, because the roots will never move. Decent optimization
                 int indexOffset = (x + (y * mGridWidth)) * 2;
+                
+                double xDif = x * mGridResolution + mGridOffset + mGridResolution * mVectorField[x][y].y - mRenderedVectors[indexOffset].position.x;
+                double newX = xDif * cos(mVectorField[x][y].x);
+                double newY = xDif * sin(mVectorField[x][y].x);
+                
                 mRenderedVectors[indexOffset + 1].position =
-                    sf::Vector2f(x * mGridResolution + mGridOffset + 10 * mVectorField[x][y].y * 2, y * mGridResolution + mGridOffset);
-                std::cout << "index (" << indexOffset << ", " << indexOffset + 1 << "): ";
-                std::cout << mRenderedVectors[indexOffset].position.x << ", " << mRenderedVectors[indexOffset].position.y << ", " 
-                    << mRenderedVectors[indexOffset + 1].position.x << ", " << mRenderedVectors[indexOffset + 1].position.y << std::endl;
+                    sf::Vector2f(mRenderedVectors[indexOffset].position.x + newX, mRenderedVectors[indexOffset].position.y + newY);
             }
         }
 

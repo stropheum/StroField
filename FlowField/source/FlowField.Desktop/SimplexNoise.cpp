@@ -2,7 +2,7 @@
 #include "SimplexNoise.h"
 
 
-int SimplexNoise::SEED = 619547546891;
+int SimplexNoise::SEED = 6199519165653446891;
 
 SimplexNoise::SimplexNoise(int numberOfOctaves, double persistence) :
     octaveCount(numberOfOctaves)
@@ -33,7 +33,7 @@ SimplexNoise::~SimplexNoise()
     delete[] amplitudes;
 }
 
-double SimplexNoise::GetNoise(int x, int y)
+double SimplexNoise::GetNoise(double x, double y)
 {
     double result = 0;
 
@@ -45,7 +45,7 @@ double SimplexNoise::GetNoise(int x, int y)
     return result;
 }
 
-double SimplexNoise::GetNoise(int x, int y, int z)
+double SimplexNoise::GetNoise(double x, double y, double z)
 {
     double result = 0;
     

@@ -158,10 +158,10 @@ double SimplexNoiseOctave::Noise(double xin, double yin)
 
 double SimplexNoiseOctave::Noise(double xin, double yin, double zin)
 {
-    double n0 = 0;
-    double n1 = 0;
-    double n2 = 0;
-    double n3 = 0;
+    double n0 = 0.0f;
+    double n1 = 0.0f;
+    double n2 = 0.0f;
+    double n3 = 0.0f;
 
     double s = (xin + yin + zin) * F3;
     int i = FastFloor(xin + s);
@@ -262,7 +262,7 @@ double SimplexNoiseOctave::Noise(double xin, double yin, double zin)
     int gi2 = perm[ii + i2 + perm[jj + j2 + perm[kk + k2]]] % 12;
     int gi3 = perm[ii + 1 + perm[jj + 1 + perm[kk + 1]]] % 12;
 
-    double t0 = 0.6f - (x0 * x0) - (y0 * y0) - (z0 * z0);
+    double t0 = 0.5f - (x0 * x0) - (y0 * y0) - (z0 * z0);
     if (t0 < 0)
     {
         n0 = 0.0f;
@@ -273,7 +273,7 @@ double SimplexNoiseOctave::Noise(double xin, double yin, double zin)
         n0 = t0 * t0 * Dot(points3d[gi0], x0, y0, z0);
     }
 
-    double t1 = 0.6f - (x1 * x1) - (y1 * y1) - (z1 * z1);
+    double t1 = 0.5f - (x1 * x1) - (y1 * y1) - (z1 * z1);
     if (t1 < 0)
     {
         n1 = 0.0f;
@@ -284,7 +284,7 @@ double SimplexNoiseOctave::Noise(double xin, double yin, double zin)
         n1 = t1 * t1 * Dot(points3d[gi1], x1, y1, z1);
     }
 
-    double t2 = 0.6f - (x2 * x2) - (y2 * y2) - (z2 * z2);
+    double t2 = 0.5f - (x2 * x2) - (y2 * y2) - (z2 * z2);
     if (t2 < 0)
     {
         n2 = 0.0f;
@@ -295,7 +295,7 @@ double SimplexNoiseOctave::Noise(double xin, double yin, double zin)
         n2 = t2 * t2 * Dot(points3d[gi2], x2, y2, z2);
     }
 
-    double t3 = 0.6f - (x3 * x3) - (y3 * y3) - (z3 * z3);
+    double t3 = 0.5f - (x3 * x3) - (y3 * y3) - (z3 * z3);
     if (t3 < 0)
     {
         n3 = 0.0f;

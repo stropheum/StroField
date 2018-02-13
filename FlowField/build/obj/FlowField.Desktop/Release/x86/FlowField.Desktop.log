@@ -1,0 +1,35 @@
+﻿  stdafx.cpp
+  FlowField.cpp
+FlowField.cpp(17): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+FlowField.cpp(36): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+FlowField.cpp(38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+FlowField.cpp(68): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+FlowField.cpp(69): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+FlowField.cpp(76): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  NoiseCube.cpp
+NoiseCube.cpp(112): warning C4244: '=': conversion from 'double' to 'sf::Uint8', possible loss of data
+NoiseCube.cpp(113): warning C4244: '=': conversion from 'double' to 'sf::Uint8', possible loss of data
+NoiseCube.cpp(114): warning C4244: '=': conversion from 'double' to 'sf::Uint8', possible loss of data
+NoiseCube.cpp(175): warning C4244: '=': conversion from 'float' to 'sf::Uint8', possible loss of data
+NoiseCube.cpp(177): warning C4244: '=': conversion from 'float' to 'sf::Uint8', possible loss of data
+NoiseCube.cpp(182): warning C4244: '=': conversion from 'float' to 'sf::Uint8', possible loss of data
+NoiseCube.cpp(184): warning C4244: '=': conversion from 'float' to 'sf::Uint8', possible loss of data
+NoiseCube.cpp(189): warning C4244: '=': conversion from 'float' to 'sf::Uint8', possible loss of data
+NoiseCube.cpp(191): warning C4244: '=': conversion from 'float' to 'sf::Uint8', possible loss of data
+NoiseCube.cpp(196): warning C4244: '=': conversion from 'float' to 'sf::Uint8', possible loss of data
+NoiseCube.cpp(198): warning C4244: '=': conversion from 'float' to 'sf::Uint8', possible loss of data
+NoiseCube.cpp(203): warning C4244: '=': conversion from 'float' to 'sf::Uint8', possible loss of data
+NoiseCube.cpp(205): warning C4244: '=': conversion from 'float' to 'sf::Uint8', possible loss of data
+NoiseCube.cpp(210): warning C4244: '=': conversion from 'float' to 'sf::Uint8', possible loss of data
+NoiseCube.cpp(212): warning C4244: '=': conversion from 'float' to 'sf::Uint8', possible loss of data
+  SimplexNoise.cpp
+SimplexNoise.cpp(5): warning C4305: 'initializing': truncation from '__int64' to 'int'
+SimplexNoise.cpp(5): warning C4309: 'initializing': truncation of constant value
+  SimplexNoiseOctave.cpp
+  Simulation.cpp
+  Main.cpp
+  Generating code
+  All 136 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  FlowField.Desktop.vcxproj -> C:\Users\strop\Documents\GitHub\StroField\FlowField\build\bin\FlowField.Desktop\Release\x86\FlowField.Desktop.exe
+  FlowField.Desktop.vcxproj -> C:\Users\strop\Documents\GitHub\StroField\FlowField\build\bin\FlowField.Desktop\Release\x86\FlowField.Desktop.pdb (Full PDB)
