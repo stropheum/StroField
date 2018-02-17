@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "FlowField.h"
-#include <Math.h>
 
 
 FlowField::FlowField(const int& width, const int& height, const int& gridResolution) :
