@@ -14,4 +14,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE.md) f
 
 ## Acknowledgments
 
-* Based off of example code provided by Stefan Gustavson, in his paper [Simplex Noise Demystified](http://staffwww.itn.liu.se/~stegu/simplexnoise/simplexnoise.pdf#G999585)
+* Based off of example code provided by Stefan Gustavson, in his paper [Simplex Noise Demystified](http://staffwww.itn.liu.se/%7Estegu/simplexnoise/simplexnoise.pdf#G999585)
