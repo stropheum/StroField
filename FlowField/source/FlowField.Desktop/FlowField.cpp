@@ -25,7 +25,6 @@ FlowField::FlowField(const int& width, const int& height, const int& gridResolut
     for (int i = 0; i < mGridWidth; i++)
     {
         mVectorField[i] = new sf::Vector2f[mGridHeight];
-        //mRenderedVectors[i] = new sf::Sprite[mGridHeight];
         for (int j = 0; j < mGridHeight; j++)
         {
             mRenderedVectors[(i + (j * mGridWidth)) * 2].position = 
@@ -56,7 +55,7 @@ FlowField::~FlowField()
 
 void FlowField::Update(sf::RenderWindow& window, const double& deltaTime)
 {
-    double elapsedTime = mNoiseClock.getElapsedTime().asSeconds() / 1000.0f * 5;
+    double elapsedTime = mNoiseClock.getElapsedTime().asSeconds() / 100 * 5;
     if (mDeltaClock.getElapsedTime().asSeconds() >= (1.0f / 120.0f))
     {
         for (int y = 0; y < mGridHeight; y++)
@@ -69,13 +68,13 @@ void FlowField::Update(sf::RenderWindow& window, const double& deltaTime)
                 // Only need to update the odd vertices, because the roots will never move. Decent optimization
                 int indexOffset = (x + (y * mGridWidth)) * 2;
                 
-                double xDif = x * mGridResolution + mGridOffset + mGridResolution * mVectorField[x][y].y - mRenderedVectors[indexOffset].position.x;
-                if (xDif > mGridResolution)
-                {   // clamp the vector length
-                    xDif = mGridResolution;
+                double vectorLength = mGridResolution * mVectorField[x][y].y;
+                if (vectorLength > mGridResolution)
+                {   // clamp the vector length to the radius of a node
+                    vectorLength = mGridResolution;
                 }
-                double newX = xDif * cos(mVectorField[x][y].x);
-                double newY = xDif * sin(mVectorField[x][y].x);
+                double newX = vectorLength * cos(mVectorField[x][y].x);
+                double newY = vectorLength * sin(mVectorField[x][y].x);
                 
                 mRenderedVectors[indexOffset + 1].position =
                     sf::Vector2f(mRenderedVectors[indexOffset].position.x + newX, mRenderedVectors[indexOffset].position.y + newY);
