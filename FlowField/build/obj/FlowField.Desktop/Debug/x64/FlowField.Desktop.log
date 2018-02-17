@@ -1,9 +1,0 @@
-﻿  FlowField.cpp
-c:\users\strop\documents\github\strofield\flowfield\source\flowfield.desktop\flowfield.cpp(17): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\strop\documents\github\strofield\flowfield\source\flowfield.desktop\flowfield.cpp(31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\strop\documents\github\strofield\flowfield\source\flowfield.desktop\flowfield.cpp(33): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\strop\documents\github\strofield\flowfield\source\flowfield.desktop\flowfield.cpp(65): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\strop\documents\github\strofield\flowfield\source\flowfield.desktop\flowfield.cpp(66): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\strop\documents\github\strofield\flowfield\source\flowfield.desktop\flowfield.cpp(80): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-  FlowField.Desktop.vcxproj -> C:\Users\strop\Documents\GitHub\StroField\FlowField\build\bin\FlowField.Desktop\Debug\x64\FlowField.Desktop.exe
-  FlowField.Desktop.vcxproj -> C:\Users\strop\Documents\GitHub\StroField\FlowField\build\bin\FlowField.Desktop\Debug\x64\FlowField.Desktop.pdb (Full PDB)
