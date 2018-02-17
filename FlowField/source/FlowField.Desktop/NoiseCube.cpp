@@ -5,14 +5,13 @@
 using namespace std;
 
 NoiseCube::NoiseCube(const int& width, const int& height) :
-    mWidth(width), mHeight(height), mDepth(10), mDepthIndex(0), mPingPongAscending(true || mDepthIndex >= (mDepth - 1)), 
+    mWidth(width), mHeight(height), mDepth(100), mDepthIndex(0), mPingPongAscending(true || mDepthIndex >= (mDepth - 1)), 
     mPixelArray(0), mPixelTexture(), mPixelSprite(), mDeltaClock(), mGenerator(), mSimplexNoise(nullptr)
 {
     mSimplexNoise = new SimplexNoise(7, 0.5f);
 
     std::random_device device;
     mGenerator = std::default_random_engine(device());
-    //mGenerator = std::default_random_engine(SimplexNoise::SEED);
 
     mPixelArray = new sf::Uint8*[mDepth];
     for (int i = 0; i < mDepth; i++)
@@ -95,8 +94,8 @@ void NoiseCube::GenerateNoise()
 void NoiseCube::GenerateNoiseAtDepth(int depth)
 {
     //ColorizeGreyscale(depth);
-    ColorizeTerrain(depth);
-    //ColorizeTopography(depth);
+    //ColorizeTerrain(depth);
+    ColorizeTopography(depth);
 }
 
 void NoiseCube::ColorizeGreyscale(int depth)

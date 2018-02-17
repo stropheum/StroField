@@ -2,44 +2,43 @@
 #include "SimplexNoise.h"
 
 
-int SimplexNoise::SEED = 6199519165653446891;
-
 SimplexNoise::SimplexNoise(int numberOfOctaves, double persistence) :
-    octaveCount(numberOfOctaves)
+    mOctaveCount(numberOfOctaves)
 {
-    random = std::default_random_engine(SEED);
+    std::random_device device;
+    mRandom = std::default_random_engine(device());
 
-    octaves = new SimplexNoiseOctave*[numberOfOctaves];
-    frequencies = new double[numberOfOctaves];
-    amplitudes = new double[numberOfOctaves];
+    mOctaves = new SimplexNoiseOctave*[numberOfOctaves];
+    mFrequencies = new double[numberOfOctaves];
+    mAmplitudes = new double[numberOfOctaves];
 
     std::uniform_int_distribution<int> range(INT_MIN, INT_MAX);
     for (int i = 0; i < numberOfOctaves; i++)
     {
-        octaves[i] = new SimplexNoiseOctave(range(random));
-        frequencies[i] = pow(2, i);
-        amplitudes[i] = pow(persistence, numberOfOctaves - i);
+        mOctaves[i] = new SimplexNoiseOctave(range(mRandom));
+        mFrequencies[i] = pow(2, i);
+        mAmplitudes[i] = pow(persistence, numberOfOctaves - i);
     }
 }
 
 SimplexNoise::~SimplexNoise()
 {
-    for (int i = 0; i < octaveCount; i++)
+    for (int i = 0; i < mOctaveCount; i++)
     {
-        delete octaves[i];
+        delete mOctaves[i];
     }
-    delete[] octaves;
-    delete[] frequencies;
-    delete[] amplitudes;
+    delete[] mOctaves;
+    delete[] mFrequencies;
+    delete[] mAmplitudes;
 }
 
 double SimplexNoise::GetNoise(double x, double y)
 {
     double result = 0;
 
-    for (int i = 0; i < octaveCount; i++)
+    for (int i = 0; i < mOctaveCount; i++)
     {
-        result += (octaves[i]->Noise(x / frequencies[i], y / frequencies[i]) * amplitudes[i]);
+        result += (mOctaves[i]->Noise(x / mFrequencies[i], y / mFrequencies[i]) * mAmplitudes[i]);
     }
 
     return result;
@@ -49,9 +48,9 @@ double SimplexNoise::GetNoise(double x, double y, double z)
 {
     double result = 0;
     
-    for (int i = 0; i < octaveCount; i++)
+    for (int i = 0; i < mOctaveCount; i++)
     {
-        result += octaves[i]->Noise(x / frequencies[i], y / frequencies[i], z / frequencies[i]) * amplitudes[i];
+        result += mOctaves[i]->Noise(x / mFrequencies[i], y / mFrequencies[i], z / mFrequencies[i]) * mAmplitudes[i];
     }
     
     return result;

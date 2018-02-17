@@ -15,8 +15,17 @@ public:
     FlowField& operator=(FlowField&& rhs) = delete;
 #pragma endregion
 
+    /**
+     * Updates the simulation state
+     * @Param window: The window being rendered to
+     * @Param deltaTime: The time elased since last update call
+     */
     virtual void Update(sf::RenderWindow& window, const double& deltaTime) override;
 
+    /**
+     * Renders the current simulation state to the screen
+     * @Param window: The window being rendered to
+     */
     virtual void Render(sf::RenderWindow& window) override;
 
 private:
@@ -32,7 +41,6 @@ private:
     sf::Vertex* mRenderedVectors;
     sf::Clock mDeltaClock;
     sf::Clock mNoiseClock;
-    const double PI = 3.141592653589793238463;
 
 };
 

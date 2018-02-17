@@ -18,7 +18,7 @@ FlowField::FlowField(const int& width, const int& height, const int& gridResolut
     mSpriteImage.create(mGridOffset, 1, sf::Color::White);
     mSpriteTexture.loadFromImage(mSpriteImage);
 
-    mSimplexNoise = new SimplexNoise(7, 1.0f);
+    mSimplexNoise = new SimplexNoise(10, 1.0f);
 
     mVectorField = new sf::Vector2f*[mGridWidth];
     mRenderedVectors = new sf::Vertex[mGridWidth * mGridHeight * 2];
@@ -32,6 +32,9 @@ FlowField::FlowField(const int& width, const int& height, const int& gridResolut
                 sf::Vector2f(i * mGridResolution + mGridOffset, j * mGridResolution + mGridOffset);
             mRenderedVectors[(i + (j * mGridWidth)) * 2 + 1].position = 
                 sf::Vector2f(i * mGridResolution + mGridOffset, j * mGridResolution + mGridOffset);
+
+            mRenderedVectors[(i + (j * mGridWidth)) * 2].color = sf::Color(170, 170, 170, 255);
+            mRenderedVectors[(i + (j * mGridWidth)) * 2 + 1].color = sf::Color(0, 170, 170, 255);
         }
     }
 
@@ -53,8 +56,8 @@ FlowField::~FlowField()
 
 void FlowField::Update(sf::RenderWindow& window, const double& deltaTime)
 {
-    double elapsedTime = mNoiseClock.getElapsedTime().asSeconds() / 100.0f;
-    if (mDeltaClock.getElapsedTime().asSeconds() >= (1.0f / 60.0f))
+    double elapsedTime = mNoiseClock.getElapsedTime().asSeconds() / 1000.0f * 5;
+    if (mDeltaClock.getElapsedTime().asSeconds() >= (1.0f / 120.0f))
     {
         for (int y = 0; y < mGridHeight; y++)
         {
@@ -67,6 +70,10 @@ void FlowField::Update(sf::RenderWindow& window, const double& deltaTime)
                 int indexOffset = (x + (y * mGridWidth)) * 2;
                 
                 double xDif = x * mGridResolution + mGridOffset + mGridResolution * mVectorField[x][y].y - mRenderedVectors[indexOffset].position.x;
+                if (xDif > mGridResolution)
+                {   // clamp the vector length
+                    xDif = mGridResolution;
+                }
                 double newX = xDif * cos(mVectorField[x][y].x);
                 double newY = xDif * sin(mVectorField[x][y].x);
                 

@@ -1,12 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Precompiled Header">
-      <UniqueIdentifier>{9d101901-2861-46cc-a4a7-c168855f3ddf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Main">
-      <UniqueIdentifier>{70dac0ff-8973-4756-9066-a59faec23875}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Simulation">
       <UniqueIdentifier>{4a0354a3-cc0b-465b-84d5-c0cf3a4ce851}</UniqueIdentifier>
     </Filter>
@@ -25,13 +19,22 @@
     <Filter Include="SimplexNoise\SimplexNoiseOctave">
       <UniqueIdentifier>{f767561b-9291-43eb-8541-b31f443204f5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SimplexNoise\_SimplexNoise">
+      <UniqueIdentifier>{1e33191b-9101-4729-b03a-7cfc76fb778c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_Precompiled Header">
+      <UniqueIdentifier>{9d101901-2861-46cc-a4a7-c168855f3ddf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="__Main">
+      <UniqueIdentifier>{70dac0ff-8973-4756-9066-a59faec23875}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
-      <Filter>Precompiled Header</Filter>
+      <Filter>_Precompiled Header</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp">
-      <Filter>Main</Filter>
+      <Filter>__Main</Filter>
     </ClCompile>
     <ClCompile Include="Simulation.cpp">
       <Filter>Simulation</Filter>
@@ -39,19 +42,19 @@
     <ClCompile Include="NoiseCube.cpp">
       <Filter>NoiseCube</Filter>
     </ClCompile>
-    <ClCompile Include="SimplexNoise.cpp">
-      <Filter>SimplexNoise</Filter>
-    </ClCompile>
     <ClCompile Include="SimplexNoiseOctave.cpp">
       <Filter>SimplexNoise\SimplexNoiseOctave</Filter>
     </ClCompile>
     <ClCompile Include="FlowField.cpp">
       <Filter>FlowField</Filter>
     </ClCompile>
+    <ClCompile Include="SimplexNoise.cpp">
+      <Filter>SimplexNoise\_SimplexNoise</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
-      <Filter>Precompiled Header</Filter>
+      <Filter>_Precompiled Header</Filter>
     </ClInclude>
     <ClInclude Include="Simulation.h">
       <Filter>Simulation</Filter>
@@ -62,14 +65,14 @@
     <ClInclude Include="NoiseCube.h">
       <Filter>NoiseCube</Filter>
     </ClInclude>
-    <ClInclude Include="SimplexNoise.h">
-      <Filter>SimplexNoise</Filter>
-    </ClInclude>
     <ClInclude Include="SimplexNoiseOctave.h">
       <Filter>SimplexNoise\SimplexNoiseOctave</Filter>
     </ClInclude>
     <ClInclude Include="FlowField.h">
       <Filter>FlowField</Filter>
+    </ClInclude>
+    <ClInclude Include="SimplexNoise.h">
+      <Filter>SimplexNoise\_SimplexNoise</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

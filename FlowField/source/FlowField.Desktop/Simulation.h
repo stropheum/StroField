@@ -14,17 +14,29 @@ public:
     Simulation& operator=(Simulation&& rhs) = delete;
 #pragma endregion
 
+    /**
+     * Entry point of the simulation
+     */
     void Start();
 
+    /**
+     * Updates the simulation state
+     * @Param window: The window being rendered to
+     * @Param deltaTime: The time elased since last update call
+     */
     virtual void Update(sf::RenderWindow& window, const double& deltaTime) override;
 
+    /**
+     * Renders the current simulation state to the screen
+     * @Param window: The window being rendered to
+     */
     virtual void Render(sf::RenderWindow& window) override;
 
 private:
 
-    sf::RenderWindow mWindow;
-    class FlowField* mFlowField;
-    class NoiseCube* mNoiseCube;
+    sf::RenderWindow mWindow;       // The window that the simulation will be rendered to
+    class FlowField* mFlowField;    // The flowfield being simulated
+    class NoiseCube* mNoiseCube;    // The noise cube being simulated
 
 };
 

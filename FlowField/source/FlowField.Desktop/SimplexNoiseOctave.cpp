@@ -2,7 +2,8 @@
 #include "SimplexNoiseOctave.h"
 
 
-short* SimplexNoiseOctave::p_supply = new short[256]{ 42, 222, 46, 158, 150, 17, 224, 11,
+// pre-shuffled values from 0-255 to allow a more arbitrary start-point
+short* SimplexNoiseOctave::sPointSupply = new short[256]{ 42, 222, 46, 158, 150, 17, 224, 11,
 252, 133, 220, 190, 93, 151, 161, 243, 54, 48,78, 56, 20, 9, 66, 250, 219, 25, 189, 31,
 111, 14, 235, 131, 34, 170, 232, 101, 156, 159, 174, 88, 247, 41, 5, 122, 163, 23, 107,
 12, 230, 91, 50, 173, 135, 94, 248, 209, 92, 229, 40, 144, 241, 74, 134, 187, 194, 118,
@@ -18,295 +19,209 @@ short* SimplexNoiseOctave::p_supply = new short[256]{ 42, 222, 46, 158, 150, 17,
 228, 253, 67, 148, 90, 55, 52, 233, 198, 98, 249, 244, 208, 33, 165 };
 
 SimplexNoiseOctave::SimplexNoiseOctave(int seed) :
-    F2(0.5f * (sqrt(3.0f) - 1.0f)), G2((3.0f - sqrt(3.0f)) / 6.0f),
-    F3(1.0f / 3.0f), G3(1.0f / 6.0f)
+    mF2(0.5f * (sqrt(3.0f) - 1.0f)), 
+    mG2((3.0f - sqrt(3.0f)) / 6.0f),
+    mF3(1.0f / 3.0f), 
+    mG3(1.0f / 6.0f)
 {
-    random = std::default_random_engine(seed);
-
-    points2d = new sf::Vector2i[4];
-    points2d[0] = sf::Vector2i( 1,  1);
-    points2d[1] = sf::Vector2i(-1,  1);
-    points2d[2] = sf::Vector2i( 1, -1); 
-    points2d[3] = sf::Vector2i(-1, -1);
-
-    points3d = new sf::Vector3i[12];
-    points3d[0]  = sf::Vector3i( 1, 1, 0);
-    points3d[1]  = sf::Vector3i(-1, 1, 0);
-    points3d[2]  = sf::Vector3i( 1,-1, 0);
-    points3d[3]  = sf::Vector3i(-1,-1, 0);
-    points3d[4]  = sf::Vector3i( 1, 0, 1);
-    points3d[5]  = sf::Vector3i(-1, 0, 1);
-    points3d[6]  = sf::Vector3i( 1, 0,-1);
-    points3d[7]  = sf::Vector3i(-1, 0,-1);
-    points3d[8]  = sf::Vector3i( 0, 1, 1);
-    points3d[9]  = sf::Vector3i( 0,-1, 1);
-    points3d[10] = sf::Vector3i( 0, 1,-1);
-    points3d[11] = sf::Vector3i( 0,-1,-1);
-
-    p = new short[256];
-    perm = new short[512];
-    permMod12 = new short[512];
-
-    // Clone p_supply
-    for (int i = 0; i < 256; i++)
-    {
-        p[i] = p_supply[i];
-    }
-
-    std::uniform_int_distribution<int> range(0, 255); // Length of p
-    for (int i = 0; i < numberOfSwaps; i++)
-    {
-        int from = range(random);
-        int to = range(random);
-
-        short temp = p[from];
-        p[from] = p[to];
-        p[to] = temp;
-    }
-
-    for (int i = 0; i < 512; i++) // length of perm
-    {
-        perm[i] = p[i & 255];
-        permMod12[i] = static_cast<short>(perm[i] % 4);
-    }
+    mRandom = std::default_random_engine(seed);
+    InitializePoints2D();
+    InitializePoints3D();
+    InitializePointSupply();
 }
 
 SimplexNoiseOctave::~SimplexNoiseOctave()
 {
-    //delete[] points;
-    //delete[] p;
-    //delete[] perm;
-    //delete[] permMod12;
+    delete[] mP;
+    delete[] mPerm;
+    delete[] mPermMod12;
+    delete[] mPoints2d;
+    delete[] mPoints3d;
 }
 
 double SimplexNoiseOctave::Noise(double xin, double yin)
 {
-    double s = (xin + yin) * F2;
-    int i = FastFloor(xin + s);
-    int j = FastFloor(yin + s);
-    double t = (i + j) * G2;
-    double X0 = i - t;
-    double Y0 = j - t;
-    double x0 = xin - X0;
-    double y0 = yin - Y0;
+    double s = (xin + yin) * mF2;
 
-    int i1 = 0;
-    int j1 = 0;
+    int I[2]{ 0 };
+    int J[2]{ 0 };
+    I[0] = FastFloor(xin + s);
+    J[0] = FastFloor(yin + s);
+
+    double T = (I[0] + J[0]) * mG2;
+    double X0 =I[0] - T;
+    double Y0 = J[0] - T;
     
-    if (x0 > y0)
+    double x[3]{ 0.0f };
+    double y[3]{ 0.0f };
+    x[0] = xin - X0;
+    y[0] = yin - Y0;
+
+    if (x[0] > y[0])
     {
-        i1 = 1;
-        j1 = 0;
+        I[1] = 1;
+        J[1] = 0;
     }
     else
     {
-        i1 = 0;
-        j1 = 1;
+        I[1] = 0;
+        J[1] = 1;
     }
 
-    double x1 = x0 - i1 + G2;
-    double y1 = y0 - j1 + G2;
-    double x2 = x0 - 1.0f + 2.0f * G2;
-    double y2 = y0 - 1.0f + 2.0f * G2;
-
-    int ii = i & 255;
-    int jj = j & 255;
-
-    int gi0 = permMod12[ii + perm[jj]];
-    int gi1 = permMod12[ii + i1 + perm[jj + j1]];
-    int gi2 = permMod12[ii + 1 + perm[jj + 1]];
-
-    double n0 = 0.0f;
-    double n1 = 0.0f;
-    double n2 = 0.0f;
-
-    double t0 = 0.5f - (x0 * x0) - (y0 * y0);
-    if (t0 < 0)
+    for (int i = 1; i < 3; i++)
     {
-        n0 = 0;
-    }
-    else
-    {
-        t0 *= t0;
-        n0 = t0 * t0 * Dot(points2d[gi0], x0, y0);
+        x[i] = x[0] - (i < 2 ? I[i] : 1.0f) + (i * mG2);
+        y[i] = y[0] - (i < 2 ? J[i] : 1.0f) + (i * mG2);
     }
 
-    double t1 = 0.5f - (x1 * x1) - (y1 * y1);
-    if (t1 < 0)
+    int ii = I[0] & 255;
+    int jj = J[0] & 255;
+
+    int gi[3]{ 0 };
+    gi[0] = mPermMod12[ii + mPerm[jj]];
+    gi[1] = mPermMod12[ii + I[1] + mPerm[jj + J[1]]];
+    gi[2] = mPermMod12[ii + 1 + mPerm[jj + 1]];
+
+    double n[3]{ 0.0f };
+    double t[3]{ 0.0f };
+
+    for (int i = 0; i < 3; i++)
     {
-        n1 = 0;
-    }
-    else
-    {
-        t1 *= t1;
-        n1 = t1 * t1 * Dot(points2d[gi1], x1, y1);
+        t[i] = 0.5f - (x[i] * x[i]) - (y[i] * y[i]);
+        if (t[i] < 0)
+        {
+            n[i] = 0;
+        }
+        else
+        {
+            t[i] *= t[i];
+            n[i] = t[i] * t[i] * Dot(mPoints2d[gi[i]], x[i], y[i]);
+        }
     }
 
-    double t2 = 0.5f - (x2 * x2) - (y2 * y2);
-    if (t2 < 0)
-    {
-        n2 = 0;
-    }
-    else
-    {
-        t2 *= t2;
-        n2 = t2 * t2 * Dot(points2d[gi2], x2, y2);
-    }
-
-    return 70 * (n0 + n1 + n2);
+    return 70.0f * (n[0] + n[1] + n[2]);
 }
 
 double SimplexNoiseOctave::Noise(double xin, double yin, double zin)
 {
-    double n0 = 0.0f;
-    double n1 = 0.0f;
-    double n2 = 0.0f;
-    double n3 = 0.0f;
+    double n[4]{ 0.0f };
+    double s = (xin + yin + zin) * mF3;
 
-    double s = (xin + yin + zin) * F3;
-    int i = FastFloor(xin + s);
-    int j = FastFloor(yin + s);
-    int k = FastFloor(zin + s);
+    int I[3]{ 0 };
+    int J[3]{ 0 };
+    int K[3]{ 0 };
 
-    double t = (i + j + k) * G3;
-    double X0 = i - t;
-    double Y0 = j - t;
-    double Z0 = k - t;
-    double x0 = xin - X0;
-    double y0 = yin - Y0;
-    double z0 = zin - Z0;
+    I[0] = FastFloor(xin + s);
+    J[0] = FastFloor(yin + s);
+    K[0] = FastFloor(zin + s);
 
-    int i1 = 0;
-    int j1 = 0;
-    int k1 = 0;
-    int i2 = 0;
-    int j2 = 0;
-    int k2 = 0;
+    double T = (I[0] + J[0] + K[0]) * mG3;
+    double X0 = I[0] - T;
+    double Y0 = J[0] - T;
+    double Z0 = K[0] - T;
 
-    if (x0 >= y0)
+    double x[4]{ 0.0f };
+    double y[4]{ 0.0f };
+    double z[4]{ 0.0f };
+
+    x[0] = xin - X0;
+    y[0] = yin - Y0;
+    z[0] = zin - Z0;
+
+    if (x[0] >= y[0])
     {
-        if (y0 >= z0)
+        if (y[0] >= z[0])
         {
-            i1 = 1;
-            j1 = 0;
-            k1 = 0;
-            i2 = 1; 
-            j2 = 1;
-            k2 = 0;
+            I[1] = 1;
+            J[1] = 0;
+            K[1] = 0;
+            I[2] = 1; 
+            J[2] = 1;
+            K[2] = 0;
         }
-        else if (x0 >= z0)
+        else if (x[0] >= z[0])
         {
-            i1 = 1;
-            j1 = 0;
-            k1 = 0;
-            i2 = 1;
-            j2 = 0;
-            k2 = 1;
-        }
-        else
-        {
-            i1 = 0;
-            j1 = 0;
-            k1 = 1;
-            i2 = 1;
-            j2 = 0;
-            k2 = 1;
-        }
-    }
-    else
-    {
-        if (y0 < z0)
-        {
-            i1 = 0;
-            j1 = 0;
-            k1 = 1;
-            i2 = 0;
-            j2 = 1;
-            k2 = 1;
-        }
-        else if (x0 < z0)
-        {
-            i1 = 0;
-            j1 = 1;
-            k1 = 0;
-            i2 = 0;
-            j2 = 1;
-            k2 = 1;
+            I[1] = 1;
+            J[1] = 0;
+            K[1] = 0;
+            I[2] = 1;
+            J[2] = 0;
+            K[2] = 1;
         }
         else
         {
-            i1 = 0;
-            j1 = 1;
-            k1 = 0;
-            i2 = 1;
-            j2 = 1;
-            k2 = 0;
+            I[1] = 0;
+            J[1] = 0;
+            K[1] = 1;
+            I[2] = 1;
+            J[2] = 0;
+            K[2] = 1;
+        }
+    }
+    else
+    {
+        if (y[0] < z[0])
+        {
+            I[1] = 0;
+            J[1] = 0;
+            K[1] = 1;
+            I[2] = 0;
+            J[2] = 1;
+            K[2] = 1;
+        }
+        else if (x[0] < z[0])
+        {
+            I[1] = 0;
+            J[1] = 1;
+            K[1] = 0;
+            I[2] = 0;
+            J[2] = 1;
+            K[2] = 1;
+        }
+        else
+        {
+            I[1] = 0;
+            J[1] = 1;
+            K[1] = 0;
+            I[2] = 1;
+            J[2] = 1;
+            K[2] = 0;
         }
     }
 
-    double x1 = x0 - i1 + G3;
-    double y1 = y0 - j1 + G3;
-    double z1 = z0 - k1 + G3;
-    double x2 = x0 - i2 + 2.0f * G3;
-    double y2 = y0 - j2 + 2.0f * G3;
-    double z2 = z0 - k2 + 2.0f * G3;
-    double x3 = x0 - 1.0f + 3.0f * G3;
-    double y3 = y0 - 1.0f + 3.0f * G3;
-    double z3 = z0 - 1.0f + 3.0f * G3;
-
-    int ii = i & 255;
-    int jj = j & 255;
-    int kk = k & 255;
-    int gi0 = perm[ii + perm[jj + perm[kk]]] % 12;
-    int gi1 = perm[ii + i1 + perm[jj + j1 + perm[kk + k1]]] % 12;
-    int gi2 = perm[ii + i2 + perm[jj + j2 + perm[kk + k2]]] % 12;
-    int gi3 = perm[ii + 1 + perm[jj + 1 + perm[kk + 1]]] % 12;
-
-    double t0 = 0.5f - (x0 * x0) - (y0 * y0) - (z0 * z0);
-    if (t0 < 0)
+    for (int i = 1; i < 4; i++)
     {
-        n0 = 0.0f;
-    }
-    else
-    {
-        t0 *= t0;
-        n0 = t0 * t0 * Dot(points3d[gi0], x0, y0, z0);
+        x[i] = x[0] - (i < 3 ? I[i] : 1.0f) + (i * mG3);
+        y[i] = y[0] - (i < 3 ? J[i] : 1.0f) + (i * mG3);
+        z[i] = z[0] - (i < 3 ? K[i] : 1.0f) + (i * mG3);
     }
 
-    double t1 = 0.5f - (x1 * x1) - (y1 * y1) - (z1 * z1);
-    if (t1 < 0)
+    int ii = I[0] & 255;
+    int jj = J[0] & 255;
+    int kk = K[0] & 255;
+
+    int gi[4]{ 0 };
+    gi[0] = mPerm[ii + mPerm[jj + mPerm[kk]]] % 12;
+    gi[1] = mPerm[ii + I[1] + mPerm[jj + J[1] + mPerm[kk + K[1]]]] % 12;
+    gi[2] = mPerm[ii + I[2] + mPerm[jj + J[2] + mPerm[kk + K[2]]]] % 12;
+    gi[3] = mPerm[ii + 1 + mPerm[jj + 1 + mPerm[kk + 1]]] % 12;
+
+    double t[4]{ 0.0f };
+    for (int i = 0; i < 4; i++)
     {
-        n1 = 0.0f;
-    }
-    else
-    {
-        t1 *= t1;
-        n1 = t1 * t1 * Dot(points3d[gi1], x1, y1, z1);
+        t[i] = 0.4f - (x[i] * x[i]) - (y[i] * y[i]) - (z[i] * z[i]);
+        if (t[i] < 0)
+        {
+            n[i] = 0.0f;
+        }
+        else
+        {
+            t[i] *= t[i];
+            n[i] = t[i] * t[i] * Dot(mPoints3d[gi[i]], x[i], y[i], z[i]);
+        }
     }
 
-    double t2 = 0.5f - (x2 * x2) - (y2 * y2) - (z2 * z2);
-    if (t2 < 0)
-    {
-        n2 = 0.0f;
-    }
-    else
-    {
-        t2 *= t2;
-        n2 = t2 * t2 * Dot(points3d[gi2], x2, y2, z2);
-    }
-
-    double t3 = 0.5f - (x3 * x3) - (y3 * y3) - (z3 * z3);
-    if (t3 < 0)
-    {
-        n3 = 0.0f;
-    }
-    else
-    {
-        t3 *= t3;
-        n3 = t3 * t3 * Dot(points3d[gi3], x3, y3, z3);
-    }
-
-    return 32.0f * (n0 + n1 + n2 + n3);
+    return 32.0f * (n[0] + n[1] + n[2] + n[3]);
 }
 
 double SimplexNoiseOctave::Dot(sf::Vector2i point, double x, double y)
@@ -322,4 +237,64 @@ double SimplexNoiseOctave::Dot(sf::Vector3i point, double x, double y, double z)
 int SimplexNoiseOctave::FastFloor(double x)
 {
     return (x > 0) ? static_cast<int>(x) : static_cast<int>(x - 1);
+}
+
+void SimplexNoiseOctave::InitializePoints2D()
+{
+    mPoints2d = new sf::Vector2i[4];
+    mPoints2d[0] = sf::Vector2i(1, 1);
+    mPoints2d[1] = sf::Vector2i(-1, 1);
+    mPoints2d[2] = sf::Vector2i(1, -1);
+    mPoints2d[3] = sf::Vector2i(-1, -1);
+}
+
+void SimplexNoiseOctave::InitializePoints3D()
+{
+    mPoints3d = new sf::Vector3i[12];
+    mPoints3d[0] = sf::Vector3i(1, 1, 0);
+    mPoints3d[1] = sf::Vector3i(-1, 1, 0);
+    mPoints3d[2] = sf::Vector3i(1, -1, 0);
+    mPoints3d[3] = sf::Vector3i(-1, -1, 0);
+    mPoints3d[4] = sf::Vector3i(1, 0, 1);
+    mPoints3d[5] = sf::Vector3i(-1, 0, 1);
+    mPoints3d[6] = sf::Vector3i(1, 0, -1);
+    mPoints3d[7] = sf::Vector3i(-1, 0, -1);
+    mPoints3d[8] = sf::Vector3i(0, 1, 1);
+    mPoints3d[9] = sf::Vector3i(0, -1, 1);
+    mPoints3d[10] = sf::Vector3i(0, 1, -1);
+    mPoints3d[11] = sf::Vector3i(0, -1, -1);
+}
+
+void SimplexNoiseOctave::InitializePointSupply()
+{
+    mP = new short[sPointFieldSize];
+    mPerm = new short[sPointFieldSize * 2];
+    mPermMod12 = new short[sPointFieldSize * 2];
+
+    for (int i = 0; i < sPointFieldSize; i++)
+    {
+        mP[i] = sPointSupply[i];
+    }
+
+    ShufflePointValues();
+
+    for (int i = 0; i < sPointFieldSize * 2; i++) // length of perm
+    {
+        mPerm[i] = mP[i & sPointFieldSize - 1];
+        mPermMod12[i] = static_cast<short>(mPerm[i] % 4);
+    }
+}
+
+void SimplexNoiseOctave::ShufflePointValues()
+{
+    std::uniform_int_distribution<int> range(0, sPointFieldSize - 1);
+    for (int i = 0; i < mNumberOfSwaps; i++)
+    {
+        int from = range(mRandom);
+        int to = range(mRandom);
+
+        short temp = mP[from];
+        mP[from] = mP[to];
+        mP[to] = temp;
+    }
 }
