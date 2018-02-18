@@ -54,15 +54,15 @@ FlowField::~FlowField()
 
 void FlowField::Update(sf::RenderWindow& window, const double& deltaTime)
 {
-    double elapsedTime = mNoiseClock.getElapsedTime().asSeconds() / 100 * 5;
+    double elapsedTime = mNoiseClock.getElapsedTime().asMilliseconds() / 100.0f * 1;
     if (mDeltaClock.getElapsedTime().asSeconds() >= (1.0f / 120.0f))
     {
         for (int y = 0; y < mGridHeight; y++)
         {
             for (int x = 0; x < mGridWidth; x++)
             {
-                mVectorField[x][y].x = abs(mSimplexNoise->GetNoise(x / 500.0f, y / 500.0f, elapsedTime)) * 360.0f;
-                mVectorField[x][y].y = abs(mSimplexNoise->GetNoise(x / 10.0f + 40000.0f, y / 10.0f + 40000.0f, elapsedTime));
+                mVectorField[x][y].x = abs(mSimplexNoise->GetNoise(x / 5000.0f, y / 5000.0f, elapsedTime / 5000.0f)) * 360.0f;
+                mVectorField[x][y].y = abs(mSimplexNoise->GetNoise(x / 10.0f + 40000.0f, y / 10.0f + 40000.0f, elapsedTime / 10.0f + 40000.0f));
 
                 // Only need to update the odd vertices, because the roots will never move. Decent optimization
                 int indexOffset = (x + (y * mGridWidth)) * 2;
@@ -72,9 +72,10 @@ void FlowField::Update(sf::RenderWindow& window, const double& deltaTime)
                 {   // clamp the vector length to the radius of a node
                     vectorLength = mGridResolution;
                 }
+
                 double newX = vectorLength * cos(mVectorField[x][y].x);
                 double newY = vectorLength * sin(mVectorField[x][y].x);
-                
+
                 mRenderedVectors[indexOffset + 1].position =
                     sf::Vector2f(mRenderedVectors[indexOffset].position.x + newX, mRenderedVectors[indexOffset].position.y + newY);
             }

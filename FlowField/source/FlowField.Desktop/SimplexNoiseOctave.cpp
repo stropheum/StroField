@@ -209,7 +209,7 @@ double SimplexNoiseOctave::Noise(double xin, double yin, double zin)
     double t[4]{ 0.0f };
     for (int i = 0; i < 4; i++)
     {
-        t[i] = 0.4f - (x[i] * x[i]) - (y[i] * y[i]) - (z[i] * z[i]);
+        t[i] = 0.5f - (x[i] * x[i]) - (y[i] * y[i]) - (z[i] * z[i]);
         if (t[i] < 0)
         {
             n[i] = 0.0f;
