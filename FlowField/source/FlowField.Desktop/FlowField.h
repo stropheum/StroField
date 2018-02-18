@@ -28,6 +28,10 @@ public:
      */
     virtual void Render(sf::RenderWindow& window) override;
 
+    sf::Vector2f GetForceVectorAt(const sf::Vector2f& position) const;
+
+    sf::Vector2f GetDimensions() const;
+
 private:
 
     int mGridResolution;
@@ -35,12 +39,13 @@ private:
     int mGridHeight;
     int mGridOffset;
     class SimplexNoise* mSimplexNoise;
-    sf::Vector2f** mVectorField;
+    sf::Vector2f** mVectorComponents;
     sf::Image mSpriteImage;
     sf::Texture mSpriteTexture;
-    sf::Vertex* mRenderedVectors;
-    sf::Clock mDeltaClock;
+    sf::Vertex* mForceVectors;
+    //sf::Clock mDeltaClock;
     sf::Clock mNoiseClock;
+    class ParticleCluster* mParticleCluster;
 
 };
 

@@ -37,6 +37,7 @@ private:
     sf::RenderWindow mWindow;       // The window that the simulation will be rendered to
     class FlowField* mFlowField;    // The flowfield being simulated
     class NoiseCube* mNoiseCube;    // The noise cube being simulated
+    sf::Clock mDeltaClock;          // The clock for handling universal time steps
 
 };
 

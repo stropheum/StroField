@@ -28,6 +28,9 @@
     <Filter Include="__Main">
       <UniqueIdentifier>{70dac0ff-8973-4756-9066-a59faec23875}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ParticleCluster">
+      <UniqueIdentifier>{f57d238b-30c4-4c0f-9823-617ef67b7dd2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -51,6 +54,9 @@
     <ClCompile Include="SimplexNoise.cpp">
       <Filter>SimplexNoise\_SimplexNoise</Filter>
     </ClCompile>
+    <ClCompile Include="ParticleCluster.cpp">
+      <Filter>ParticleCluster</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -73,6 +79,9 @@
     </ClInclude>
     <ClInclude Include="SimplexNoise.h">
       <Filter>SimplexNoise\_SimplexNoise</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleCluster.h">
+      <Filter>ParticleCluster</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

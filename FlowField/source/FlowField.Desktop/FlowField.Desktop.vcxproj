@@ -157,6 +157,7 @@
   <ItemGroup>
     <ClInclude Include="FlowField.h" />
     <ClInclude Include="NoiseCube.h" />
+    <ClInclude Include="ParticleCluster.h" />
     <ClInclude Include="SimComponent.h" />
     <ClInclude Include="SimplexNoise.h" />
     <ClInclude Include="SimplexNoiseOctave.h" />
@@ -166,6 +167,7 @@
   <ItemGroup>
     <ClCompile Include="FlowField.cpp" />
     <ClCompile Include="NoiseCube.cpp" />
+    <ClCompile Include="ParticleCluster.cpp" />
     <ClCompile Include="SimplexNoise.cpp" />
     <ClCompile Include="SimplexNoiseOctave.cpp" />
     <ClCompile Include="Simulation.cpp" />
