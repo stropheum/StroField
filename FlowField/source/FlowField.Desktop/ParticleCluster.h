@@ -22,10 +22,11 @@ public:
 
 private:
 
-    void HandleScreenWrapping(sf::Vector2f& position);
+    bool HandleScreenWrapping(sf::Vector2f& position);
 
     const class FlowField* const mContext;
     std::vector<sf::Vertex> mParticles;
+    std::vector<sf::Vertex> mLastParticles;
     std::vector<sf::Vector2f> mVelocities;
     std::default_random_engine mRandom;
 

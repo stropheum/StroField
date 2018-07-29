@@ -5,7 +5,7 @@
 Simulation::Simulation(sf::VideoMode videoMode, const std::string& title) :
     mWindow(videoMode, title), mFlowField(nullptr), mNoiseCube(nullptr), mDeltaClock()
 {
-    mFlowField = new FlowField(videoMode.width, videoMode.height, 30);
+    mFlowField = new FlowField(videoMode.width, videoMode.height, 50);
     //mNoiseCube = new NoiseCube(videoMode.width, videoMode.height);
     mDeltaClock.restart();
 }
@@ -23,7 +23,17 @@ void Simulation::Start()
         while (mWindow.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
+            {
                 mWindow.close();
+            }
+            
+            if (event.type == sf::Event::KeyPressed)
+            {
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+                {
+                    mWindow.clear();
+                }
+            }
         }
 
         Update(mWindow, mDeltaClock.restart().asSeconds());

@@ -13,7 +13,7 @@ ParticleCluster::ParticleCluster(const FlowField* const context, int particleCou
 
     for (int i = 0; i < particleCount; i++)
     {
-        mParticles.push_back(sf::Vertex(sf::Vector2f(xDis(mRandom), yDis(mRandom)), sf::Color(0, 255, 255, 32)));
+        mParticles.push_back(sf::Vertex(sf::Vector2f(xDis(mRandom), yDis(mRandom)), sf::Color(0, 255, 255, 16)));
         mVelocities.push_back(sf::Vector2f(velDis(mRandom), velDis(mRandom)));
     }
 }
@@ -26,12 +26,20 @@ ParticleCluster::~ParticleCluster()
 
 void ParticleCluster::Update(sf::RenderWindow& window, const double& deltaTime)
 {
+    mLastParticles = mParticles;
     ApplyForcesToParticles(deltaTime);
 }
 
 void ParticleCluster::Render(sf::RenderWindow& window)
 {
-    window.draw(&mParticles[0], mParticles.size(), sf::Points);
+    std::vector<sf::Vertex> mRenderedLines;
+    for (int i = 0; i < mParticles.size(); i++)
+    {   // Zipper up the particles for rendering
+        mRenderedLines.push_back(mLastParticles[i]);
+        mRenderedLines.push_back(mParticles[i]);
+    }
+    window.draw(&mRenderedLines[0], mParticles.size() * 2, sf::Lines);
+    //window.draw(&mParticles[0], mParticles.size(), sf::Points);
 }
 
 void ParticleCluster::ApplyForcesToParticles(const double& deltaTime)
@@ -39,11 +47,11 @@ void ParticleCluster::ApplyForcesToParticles(const double& deltaTime)
     for (int i = 0; i < mParticles.size(); i++)
     {
         sf::Vector2f force = mContext->GetForceVectorAt(mParticles[i].position);
-        mVelocities[i].x += force.x * deltaTime * 50.0f;
-        mVelocities[i].y += force.y * deltaTime * 50.0f;
+        mVelocities[i].x += force.x * deltaTime * 0.1f;
+        mVelocities[i].y += force.y * deltaTime * 0.1f;
 
         // Clamp the velocities
-        int maxVelocity = 5.0f;
+        int maxVelocity = 1.0f;
         if (mVelocities[i].x > maxVelocity)
         {
             mVelocities[i].x = maxVelocity;
@@ -67,28 +75,38 @@ void ParticleCluster::ApplyForcesToParticles(const double& deltaTime)
         mParticles[i].position.y += mVelocities[i].y;
 
         // Wrap around screen
-        HandleScreenWrapping(mParticles[i].position);
+        if (HandleScreenWrapping(mParticles[i].position))
+        {
+            mLastParticles[i] = mParticles[i];
+        }
     }
 }
 
-void ParticleCluster::HandleScreenWrapping(sf::Vector2f& position)
+bool ParticleCluster::HandleScreenWrapping(sf::Vector2f& position)
 {
+    bool result = false;
     sf::Vector2f dimensions = mContext->GetDimensions();
     if (position.x < 0)
     {
         position.x = dimensions.x - 1;
+        result = true;
     }
     else if (position.x >= dimensions.x)
     {
         position.x = 0;
+        result = true;
     }
 
     if (position.y < 0)
     {
         position.y = dimensions.y - 1;
+        result = true;
     }
     else if (position.y >= dimensions.y)
     {
         position.y = 0;
+        result = true;
     }
+
+    return result;
 }

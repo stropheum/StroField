@@ -36,7 +36,7 @@ FlowField::FlowField(const int& width, const int& height, const int& gridResolut
         }
     }
 
-    mParticleCluster = new ParticleCluster(this, 1000);
+    mParticleCluster = new ParticleCluster(this, 2000);
 
     mNoiseClock.restart();
 }
