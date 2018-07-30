@@ -93,29 +93,30 @@ void ParticleCluster::ApplyForcesToParticles(const double& deltaTime)
 
 bool ParticleCluster::HandleScreenWrapping(sf::Vector2f& position)
 {
-    bool result = false;
-    sf::Vector2f dimensions = mContext->GetDimensions();
-    if (position.x < 0)
-    {
-        position.x = dimensions.x - 1;
-        result = true;
-    }
-    else if (position.x >= dimensions.x)
-    {
-        position.x = 0;
-        result = true;
-    }
-
-    if (position.y < 0)
-    {
-        position.y = dimensions.y - 1;
-        result = true;
-    }
-    else if (position.y >= dimensions.y)
-    {
-        position.y = 0;
-        result = true;
-    }
+	UNREFERENCED_PARAMETER(position);
+    bool result = true;
+    //sf::Vector2f dimensions = mContext->GetDimensions();
+    //if (position.x < 0)
+    //{
+    //    position.x = dimensions.x - 1;
+    //    result = true;
+    //}
+    //else if (position.x >= dimensions.x)
+    //{
+    //    position.x = 0;
+    //    result = true;
+    //}
+	//
+    //if (position.y < 0)
+    //{
+    //    position.y = dimensions.y - 1;
+    //    result = true;
+    //}
+    //else if (position.y >= dimensions.y)
+    //{
+    //    position.y = 0;
+    //    result = true;
+    //}
 
     return result;
 }

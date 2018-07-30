@@ -3,10 +3,15 @@
 
 
 Simulation::Simulation(sf::VideoMode videoMode, const std::string& title) :
-    mWindow(videoMode, title), mFlowField(nullptr), mNoiseCube(nullptr), mDeltaClock()
+    mWindow(videoMode, title), 
+	mFlowField(nullptr), 
+	mNoiseCube(nullptr), 
+	mDeltaClock(), 
+	mFullScreenEnabled(false), 
+	mTitle(title), 
+	mVideoMode(videoMode)
 {
     mFlowField = new FlowField(videoMode.width, videoMode.height, 50);
-    //mNoiseCube = new NoiseCube(videoMode.width, videoMode.height);
     mDeltaClock.restart();
 }
 
@@ -29,9 +34,15 @@ void Simulation::Start()
             
             if (event.type == sf::Event::KeyPressed)
             {
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+				{
+					mWindow.close();
+				}
+
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
                 {
-                    mWindow.clear();
+					mFullScreenEnabled = !mFullScreenEnabled;
+					mWindow.create(mVideoMode, mTitle, mFullScreenEnabled ? sf::Style::Fullscreen : sf::Style::Default);
                 }
             }
         }
@@ -44,7 +55,6 @@ void Simulation::Start()
 void Simulation::Update(sf::RenderWindow& window, const double& deltaTime)
 {
     mFlowField->Update(window, deltaTime);
-    //mNoiseCube->Update(window, deltaTime);
 }
 
 void Simulation::Render(sf::RenderWindow& window)
@@ -52,7 +62,6 @@ void Simulation::Render(sf::RenderWindow& window)
     mWindow.clear();
 
     mFlowField->Render(window);
-    //mNoiseCube->Render(window);
     
     mWindow.display();
 }

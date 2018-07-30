@@ -121,12 +121,8 @@ sf::Vector2f FlowField::GetForceVectorAt(const sf::Vector2f& position) const
 sf::Vector2f FlowField::GetForcePercentageAt(const sf::Vector2f & position) const
 {
 	sf::Vector2f resultVector = GetForceVectorAt(position);
-	resultVector.x /= (mGridResolution / 2.0f);
-	resultVector.y /= (mGridResolution / 2.0f);
-	auto testValX = abs(resultVector.x);
-	auto testValY = abs(resultVector.y);
-	UNREFERENCED_PARAMETER(testValX);
-	UNREFERENCED_PARAMETER(testValY);
+	resultVector.x /= mGridResolution;
+	resultVector.y /= mGridResolution;
 
 	return resultVector;
 }
