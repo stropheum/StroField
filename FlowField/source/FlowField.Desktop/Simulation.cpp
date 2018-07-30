@@ -49,7 +49,7 @@ void Simulation::Update(sf::RenderWindow& window, const double& deltaTime)
 
 void Simulation::Render(sf::RenderWindow& window)
 {
-    //mWindow.clear();
+    mWindow.clear();
 
     mFlowField->Render(window);
     //mNoiseCube->Render(window);

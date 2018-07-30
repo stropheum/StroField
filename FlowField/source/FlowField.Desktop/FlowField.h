@@ -30,6 +30,8 @@ public:
 
     sf::Vector2f GetForceVectorAt(const sf::Vector2f& position) const;
 
+	sf::Vector2f GetForcePercentageAt(const sf::Vector2f& position) const;
+
     sf::Vector2f GetDimensions() const;
 
 private:
@@ -43,7 +45,6 @@ private:
     sf::Image mSpriteImage;
     sf::Texture mSpriteTexture;
     sf::Vertex* mForceVectors;
-    //sf::Clock mDeltaClock;
     sf::Clock mNoiseClock;
     class ParticleCluster* mParticleCluster;
 

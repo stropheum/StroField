@@ -34,6 +34,9 @@ NoiseCube::~NoiseCube()
 
 void NoiseCube::Update(sf::RenderWindow& window, const double& deltaTime)
 {
+	UNREFERENCED_PARAMETER(window);
+	UNREFERENCED_PARAMETER(deltaTime);
+
     if (mDeltaClock.getElapsedTime().asSeconds() > (1.0f / 30.0f))
     {
         mDepthIndex += mPingPongAscending ? 1 : -1;
@@ -108,11 +111,10 @@ void NoiseCube::ColorizeGreyscale(int depth)
 
             double noise = (1 + mSimplexNoise->GetNoise(i, j, depth)) / 2;
 
-            mPixelArray[depth][indexOffset + 0] = noise * 255;
-            mPixelArray[depth][indexOffset + 1] = noise * 255;
-            mPixelArray[depth][indexOffset + 2] = noise * 255;
-            mPixelArray[depth][indexOffset + 3] = 255;
-        }
+            mPixelArray[depth][indexOffset + 0] = static_cast<sf::Uint8>(noise * 255);
+            mPixelArray[depth][indexOffset + 1] = static_cast<sf::Uint8>(noise * 255);
+            mPixelArray[depth][indexOffset + 2] = static_cast<sf::Uint8>(noise * 255);
+            mPixelArray[depth][indexOffset + 3] = 255;        }
     }
 }
 
@@ -171,44 +173,44 @@ void NoiseCube::ColorizeTopography(int depth)
             if (noise > 0.00 && noise <= 0.01f)
             {   
                 mPixelArray[depth][indexOffset + 0] = 0;
-                mPixelArray[depth][indexOffset + 1] = 255 * 0.15f;
+                mPixelArray[depth][indexOffset + 1] = static_cast<sf::Uint8>(255 * 0.15f);
                 mPixelArray[depth][indexOffset + 2] = 0;
-                mPixelArray[depth][indexOffset + 3] = 255 * 0.15f;
+                mPixelArray[depth][indexOffset + 3] = static_cast<sf::Uint8>(255 * 0.15f);
             }
             else if (noise > 0.1 && noise <= 0.11f)
             {
                 mPixelArray[depth][indexOffset + 0] = 0;
-                mPixelArray[depth][indexOffset + 1] = 255 * 0.3f;
+                mPixelArray[depth][indexOffset + 1] = static_cast<sf::Uint8>(255 * 0.3f);
                 mPixelArray[depth][indexOffset + 2] = 0;
-                mPixelArray[depth][indexOffset + 3] = 255 * 0.3f;
+                mPixelArray[depth][indexOffset + 3] = static_cast<sf::Uint8>(255 * 0.3f);
             }
             else if (noise > 0.2 && noise <= 0.21f)
             {
                 mPixelArray[depth][indexOffset + 0] = 0;
-                mPixelArray[depth][indexOffset + 1] = 255 * 0.45f;
+                mPixelArray[depth][indexOffset + 1] = static_cast<sf::Uint8>(255 * 0.45f);
                 mPixelArray[depth][indexOffset + 2] = 0;
-                mPixelArray[depth][indexOffset + 3] = 255 * 0.45f;
+                mPixelArray[depth][indexOffset + 3] = static_cast<sf::Uint8>(255 * 0.45f);
             }
             else if (noise > 0.3 && noise <= 0.31f)
             {
                 mPixelArray[depth][indexOffset + 0] = 0;
-                mPixelArray[depth][indexOffset + 1] = 255 * 0.6f;
+                mPixelArray[depth][indexOffset + 1] = static_cast<sf::Uint8>(255 * 0.6f);
                 mPixelArray[depth][indexOffset + 2] = 0;
-                mPixelArray[depth][indexOffset + 3] = 255 * 0.6f;
+                mPixelArray[depth][indexOffset + 3] = static_cast<sf::Uint8>(255 * 0.6f);
             }
             else if (noise > 0.4 && noise <= 0.41f)
             {
                 mPixelArray[depth][indexOffset + 0] = 0;
-                mPixelArray[depth][indexOffset + 1] = 255 * 0.75f;
+                mPixelArray[depth][indexOffset + 1] = static_cast<sf::Uint8>(255 * 0.75f);
                 mPixelArray[depth][indexOffset + 2] = 0;
-                mPixelArray[depth][indexOffset + 3] = 255 * 0.75f;
+                mPixelArray[depth][indexOffset + 3] = static_cast<sf::Uint8>(255 * 0.75f);
             }
             else if (noise > 0.5 && noise <= 0.51f)
             {
                 mPixelArray[depth][indexOffset + 0] = 0;
-                mPixelArray[depth][indexOffset + 1] = 255 * 0.9f;
+                mPixelArray[depth][indexOffset + 1] = static_cast<sf::Uint8>(255 * 0.9f);
                 mPixelArray[depth][indexOffset + 2] = 0;
-                mPixelArray[depth][indexOffset + 3] = 255 * 0.9f;
+                mPixelArray[depth][indexOffset + 3] = static_cast<sf::Uint8>(255 * 0.9f);
             }
             else if (noise > 0.6 && noise <= 0.61f)
             {
